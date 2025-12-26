@@ -1,0 +1,12 @@
+spring:
+   application.name: unibank_api
+   datasource:
+         url: jdbc:postgresql://localhost:5432/unibanck
+         username: postgres
+         password: "your password"
+
+
+   jpa:
+      hibernate.ddl-auto: update
+      show-sql: false
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
