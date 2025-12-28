@@ -1,4 +1,10 @@
 package com.unibank.api.accounts;
 
-public class Account {
+import com.unibank.api.commons.BaseEntity;
+import jakarta.persistence.Entity;
+import org.springframework.stereotype.Component;
+
+@Entity
+@Component
+public class Account extends BaseEntity {
 }
