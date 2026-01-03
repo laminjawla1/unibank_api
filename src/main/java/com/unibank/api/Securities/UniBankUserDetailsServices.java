@@ -1,6 +1,6 @@
 package com.unibank.api.Securities;
 
-import com.unibank.api.Repositories.UsersRepository;
+import com.unibank.api.Users.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

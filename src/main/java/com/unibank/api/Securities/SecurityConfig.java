@@ -1,6 +1,6 @@
 package com.unibank.api.Securities;
 
-import com.unibank.api.JWTUtils.JwtAuthenticationFilter;
+import com.unibank.api.Securities.JWTUtils.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,6 +42,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/register").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/customers/**").hasAuthority("admin")
+                        .requestMatchers("/accounts/**").hasAuthority("admin")
+                        .requestMatchers("/transactions/deposit").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

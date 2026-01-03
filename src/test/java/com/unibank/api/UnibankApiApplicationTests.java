@@ -1,9 +1,9 @@
 package com.unibank.api;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+
+@com.unibank.api.SpringBootTest
 class UnibankApiApplicationTests {
 
 	@Test
