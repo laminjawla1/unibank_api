@@ -1,7 +1,9 @@
 package com.unibank.api.roles;
 
+import com.unibank.api.roles.dto.RoleResponseDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -11,7 +13,11 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public List<Role> getRoles() {
-        return roleRepository.findAllByOrderByNameAsc();
+    public List<RoleResponseDTO> getRoles() {
+        List<RoleResponseDTO> responseDTOS = new ArrayList<>();
+        for (Role role : roleRepository.findAllByOrderByNameAsc())
+            responseDTOS.add(role.toRoleResponseDTO());
+        System.out.println(responseDTOS);
+        return responseDTOS;
     }
 }

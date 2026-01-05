@@ -43,6 +43,5 @@ public class UserCreateDTO {
     private String password;
 
     @NotEmpty(message = "At least 1 role is required")
-    @Size(min = 1, max = 3, message = "Roles must not exceed 3")
-    private List<@NotNull Long> roleIds = new ArrayList<>();
+    private List<@NotNull UUID> roleIds = new ArrayList<>();
 }

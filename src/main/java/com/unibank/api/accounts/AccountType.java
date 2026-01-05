@@ -1,6 +1,8 @@
-package com.unibank.api.roles;
+package com.unibank.api.accounts;
 
+import com.unibank.api.accounts.dto.AccountTypeResponseDTO;
 import com.unibank.api.commons.BaseEntity;
+import com.unibank.api.roles.ERole;
 import com.unibank.api.roles.dto.RoleResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,16 +15,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "roles")
-public class Role extends BaseEntity {
+@Table(name = "account_types")
+public class AccountType extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private ERole name;
+    private EAccountType type;
 
-    public RoleResponseDTO toRoleResponseDTO() {
-        RoleResponseDTO responseDTO = new RoleResponseDTO();
+    public AccountTypeResponseDTO toAccountTypeResponseDTO() {
+        AccountTypeResponseDTO responseDTO = new AccountTypeResponseDTO();
         responseDTO.setUuid(getUuid());
-        responseDTO.setName(getName());
+        responseDTO.setType(getType());
         responseDTO.setStatus(getStatus());
         responseDTO.setCreatedAt(getCreatedAt());
         responseDTO.setUpdatedAt(getUpdatedAt());

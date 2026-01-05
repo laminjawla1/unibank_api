@@ -7,6 +7,8 @@ import com.unibank.api.roles.RoleRepository;
 import com.unibank.api.users.dtos.UserCreateDTO;
 import com.unibank.api.users.dtos.UserLoginDTO;
 import com.unibank.api.users.dtos.UserLoginResponseDTO;
+import com.unibank.api.users.dtos.UserResponseDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -84,5 +87,12 @@ public class UserService {
         loginResponse.setUser(Objects.requireNonNull(user).toUserResponseDTO());
 
         return loginResponse;
+    }
+
+    public List<UserResponseDTO> getUsers() {
+        List<UserResponseDTO> userResponseDTOS = new ArrayList<>();
+        for (User user : userRepository.findAll())
+            userResponseDTOS.add(user.toUserResponseDTO());
+        return userResponseDTOS;
     }
 }

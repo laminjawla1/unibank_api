@@ -1,7 +1,6 @@
-package com.enterprise.api.authentication.roles;
+package com.unibank.api.roles;
 
-import com.unibank.api.roles.Role;
-import com.unibank.api.roles.RoleService;
+import com.unibank.api.roles.dto.RoleResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auth/roles")
+@RequestMapping("/roles")
 public class RoleController {
     private final RoleService roleService;
 
@@ -19,7 +18,7 @@ public class RoleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Role>> getRoles() {
+    public ResponseEntity<List<RoleResponseDTO>> getRoles() {
         return ResponseEntity.ok(roleService.getRoles());
     }
 }
