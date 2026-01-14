@@ -1,13 +1,11 @@
 spring:
   application:
     name: unibank_api
-  datasource:
-    url: jdbc:mysql://localhost:3306/uni_bank?allowPublicKeyRetrieval=true&useSSL=false
-    username: uni_bank
-    password: Unibank@123
   jpa:
     hibernate:
       ddl-auto: update
+  profiles:
+    default: h2
 server:
   servlet.context-path: /api
   port: 9000
@@ -15,3 +13,28 @@ server:
 unibank:
   jwtSecretKey: f79a15602a60f23efc43615810e58ce8a3f7a703724a634725bef9e84ddcdc29
   jwtExpirationMs: 3600000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: h2
+  datasource:
+    url: jdbc:h2:mem:unibank;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/uni_bank?allowPublicKeyRetrieval=true&useSSL=false}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:}

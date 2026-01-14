@@ -8,6 +8,7 @@ import com.unibank.api.users.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -15,6 +16,8 @@ public class AdminUserSeederService implements SeederService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+
+    private static final String DEFAULT_PASSWORD = "Pass@123";
 
     public AdminUserSeederService(PasswordEncoder passwordEncoder, RoleRepository roleRepository, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
@@ -24,16 +27,23 @@ public class AdminUserSeederService implements SeederService {
 
     @Override
     public void seed() {
-        if (!userRepository.existsByUsername("admin")) {
-            User admin = new User();
-            admin.setFirstName("Admin");
-            admin.setLastName("Admin");
-            admin.setUsername("admin");
-            admin.setEmail("admin@unibank.com");
-            admin.setPassword(passwordEncoder.encode("Pass@123"));
-            admin.setRoles(Set.of(roleRepository.findByName(ERole.ROLE_ADMIN)
-                    .orElseThrow(() -> new RoleNotFoundException("Admin role not found"))));
-            userRepository.save(admin);
-        }
+        seedUser("admin", "Admin", "User", "admin@unibank.com", ERole.ROLE_ADMIN);
+        seedUser("teller", "Teller", "User", "teller@unibank.com", ERole.ROLE_TELLER);
+        seedUser("finance", "Finance", "User", "finance@unibank.com", ERole.ROLE_FINANCE);
+        seedUser("compliance", "Compliance", "User", "compliance@unibank.com", ERole.ROLE_COMPLIANCE);
+    }
+
+    private void seedUser(String username, String firstName, String lastName, String email, ERole role) {
+        if (userRepository.existsByUsername(username)) return;
+
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+        user.setRoles(Set.of(roleRepository.findByName(role)
+                .orElseThrow(() -> new RoleNotFoundException(role + " role not found"))));
+        userRepository.save(user);
     }
 }

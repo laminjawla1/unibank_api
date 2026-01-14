@@ -7,6 +7,7 @@ import com.unibank.api.users.dtos.UserResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,13 +26,20 @@ public class UserController {
         return ResponseEntity.ok(userService.login(userLoginDTO));
     }
 
-    @PostMapping
+    @PostMapping("/register")
+    @PreAuthorize("hasAnyRole('ADMIN','TELLER')")
     public ResponseEntity<MessageResponse> registerUser(@RequestBody @Valid UserCreateDTO request) {
         userService.registerUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Registration successful"));
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> me() {
+        return ResponseEntity.ok(userService.getCurrentUser());
+    }
+
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','TELLER')")
     public ResponseEntity<List<UserResponseDTO>> getUsers() {
         return ResponseEntity.ok(userService.getUsers());
     }
