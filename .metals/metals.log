@@ -11209,3 +11209,11 @@ only showing the first 100 errors, of 122 total; use -Xmaxerrs if you would like
 2026.01.14 16:11:42 INFO  time: compiled unibank_api in 4.72s
 Jan 14, 2026 4:11:56 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFO: Unsupported notification method: $/setTrace
+2026.01.14 16:34:18 INFO  Shutting down server
+2026.01.14 16:34:18 INFO  shutting down Metals
+2026.01.14 16:34:19 INFO  Shut down connection with build server.
+2026.01.14 16:34:18 INFO  Exiting server
+2026.01.14 16:34:20 INFO  Shutting down server
+2026.01.14 16:34:20 INFO  shutting down Metals
+2026.01.14 16:34:21 INFO  Shut down connection with build server.
+2026.01.14 16:34:20 INFO  Exiting server
