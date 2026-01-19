@@ -8,7 +8,7 @@ import com.unibank.api.users.dtos.UserCreateDTO;
 import com.unibank.api.users.dtos.UserLoginDTO;
 import com.unibank.api.users.dtos.UserLoginResponseDTO;
 import com.unibank.api.users.dtos.UserResponseDTO;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,12 +16,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -29,19 +29,6 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    public UserService(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            RoleRepository roleRepository,
-            AuthenticationManager authenticationManager,
-            JwtUtil jwtUtil
-    ) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
-    }
     public void registerUser(UserCreateDTO request) {
         // Validate user does not exist
         validateUserDoesNotExist(request);
@@ -90,9 +77,6 @@ public class UserService {
     }
 
     public List<UserResponseDTO> getUsers() {
-        List<UserResponseDTO> userResponseDTOS = new ArrayList<>();
-        for (User user : userRepository.findAll())
-            userResponseDTOS.add(user.toUserResponseDTO());
-        return userResponseDTOS;
+        return userRepository.findAllByOrderByCreatedAtDesc().stream().map(User::toUserResponseDTO).toList();
     }
 }

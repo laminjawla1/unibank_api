@@ -3,7 +3,10 @@ package com.unibank.api.transactions;
 import com.unibank.api.transactions.dto.TransactionCreateDTO;
 import com.unibank.api.transactions.dto.TransactionResponseDTO;
 import com.unibank.api.transactions.dto.TransactionTypeResponseDTO;
+import com.unibank.api.users.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,13 +14,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/transactions")
+@RequiredArgsConstructor
 public class TransactionController {
 
     private final TransactionService transactionService;
-
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
 
     @GetMapping
     public ResponseEntity<List<TransactionResponseDTO>> getTransactions() {
@@ -36,8 +36,9 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<TransactionResponseDTO> createTransaction(
-            @RequestBody TransactionCreateDTO request) {
-        return ResponseEntity.ok(transactionService.createTransaction(request));
+            @RequestBody TransactionCreateDTO request, @AuthenticationPrincipal User user
+    ) {
+        return ResponseEntity.ok(transactionService.createTransaction(request, user));
     }
 
     @DeleteMapping("/{uuid}")

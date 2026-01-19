@@ -5,6 +5,7 @@ import com.unibank.api.customers.dto.CustomerCreateDTO;
 import com.unibank.api.customers.dto.CustomerResponseDTO;
 import com.unibank.api.customers.dto.CustomerUpdateDTO;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,13 +13,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     /* CREATE */
     public CustomerResponseDTO createCustomer(CustomerCreateDTO request) {
@@ -35,7 +33,7 @@ public class CustomerService {
 
     /* READ ALL */
     public List<CustomerResponseDTO> getCustomers() {
-        return ((List<Customer>) customerRepository.findAll())
+        return ((List<Customer>) customerRepository.findAllByOrderByCreatedAtDesc())
                 .stream()
                 .map(Customer::toResponseDTO)
                 .collect(Collectors.toList());

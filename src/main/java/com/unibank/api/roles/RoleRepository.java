@@ -10,6 +10,5 @@ import java.util.UUID;
 @Repository
 public interface RoleRepository extends CrudRepository<Role, UUID> {
     Optional<Role> findByName(ERole name);
-
     List<Role> findAllByOrderByNameAsc();
 }

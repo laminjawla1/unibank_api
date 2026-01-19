@@ -7,9 +7,8 @@ import com.unibank.api.transactions.dto.TransactionCreateDTO;
 import com.unibank.api.transactions.dto.TransactionResponseDTO;
 import com.unibank.api.transactions.dto.TransactionTypeResponseDTO;
 import com.unibank.api.users.User;
-import com.unibank.api.users.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.jspecify.annotations.Nullable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,27 +17,16 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final TransactionTypeRepository transactionTypeRepository;
     private final AccountRepository accountRepository;
-    private final UserRepository userRepository;
-
-    public TransactionService(
-            TransactionRepository transactionRepository,
-            TransactionTypeRepository transactionTypeRepository,
-            AccountRepository accountRepository,
-            UserRepository userRepository) {
-        this.transactionRepository = transactionRepository;
-        this.transactionTypeRepository = transactionTypeRepository;
-        this.accountRepository = accountRepository;
-        this.userRepository = userRepository;
-    }
 
     /* CREATE TRANSACTION (DEPOSIT / WITHDRAWAL) */
     @Transactional
-    public TransactionResponseDTO createTransaction(TransactionCreateDTO request) {
+    public TransactionResponseDTO createTransaction(TransactionCreateDTO request, User user) {
 
         Account account = accountRepository.findById(request.getAccountId())
                 .orElseThrow(() -> new EntityNotFoundException("Account not found"));
@@ -46,11 +34,6 @@ public class TransactionService {
         TransactionType transactionType = transactionTypeRepository
                 .findById(request.getTransactionTypeId())
                 .orElseThrow(() -> new EntityNotFoundException("Transaction type not found"));
-
-        User user = request.getPerformedBy() != null
-                ? userRepository.findById(request.getPerformedBy())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"))
-                : null;
 
         validateAndApplyBalance(account, transactionType, request.getAmount());
 

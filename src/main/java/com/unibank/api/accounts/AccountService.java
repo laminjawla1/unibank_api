@@ -8,6 +8,7 @@ import com.unibank.api.commons.BaseEntity;
 import com.unibank.api.customers.Customer;
 import com.unibank.api.customers.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,20 +17,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AccountService {
 
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
     private final AccountTypeRepository accountTypeRepository;
-
-    public AccountService(
-            AccountRepository accountRepository,
-            CustomerRepository customerRepository,
-            AccountTypeRepository accountTypeRepository) {
-        this.accountRepository = accountRepository;
-        this.customerRepository = customerRepository;
-        this.accountTypeRepository = accountTypeRepository;
-    }
 
     /* CREATE */
     public AccountResponseDTO createAccount(AccountCreateDTO request) {
@@ -51,7 +44,7 @@ public class AccountService {
 
     /* READ ALL */
     public List<AccountResponseDTO> getAccounts() {
-        return accountRepository.findAll()
+        return accountRepository.findAllByOrderByCreatedAtDesc()
                 .stream()
                 .map(Account::toResponseDTO)
                 .collect(Collectors.toList());

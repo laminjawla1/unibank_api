@@ -11,5 +11,4 @@ public class TransactionCreateDTO {
     private UUID accountId;
     private UUID transactionTypeId;
     private Double amount;
-    private UUID performedBy;
 }
