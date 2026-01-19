@@ -19,15 +19,15 @@ This project serves as the backend for the UniBank platform, providing secure an
 
 ## 🛠️ Tech Stack
 
-| Technology     | Purpose                           |
-| -------------- | --------------------------------- |
-| Java           | Core programming language         |
-| Spring Boot    | Application framework             |
-| Spring Data JPA| Database access and ORM          |
-| Spring Security| Authentication & authorization    |
-| Maven          | Dependency management & build     |
-| MySQL/H2       | Database (production/development) |
-| Hibernate      | ORM framework                     |
+| Technology      | Purpose                           |
+|-----------------|-----------------------------------|
+| Java            | Core programming language         |
+| Spring Boot     | Application framework             |
+| Spring Data JPA | Database access and ORM           |
+| Spring Security | Authentication & authorization    |
+| Maven           | Dependency management & build     |
+| MySQL/H2        | Database (production/development) |
+| Hibernate       | ORM framework                     |
 
 ---
 
@@ -46,7 +46,6 @@ This project serves as the backend for the UniBank platform, providing secure an
 │   │   │       ├── config/        # Configuration classes
 │   │   │       └── security/      # Security configurations
 │   │   └── resources/
-│   │       ├── application.properties
 │   │       └── application.yml
 │   └── test/
 │       └── java/                  # Unit and integration tests
@@ -75,18 +74,27 @@ cd unibank_api
 
 ### 2. Configure Database
 
-Edit `src/main/resources/application.properties`:
+Edit `src/main/resources/application.yml`:
 
-```properties
+```yaml
 # MySQL Configuration (Production)
-spring.datasource.url=jdbc:mysql://localhost:3306/unibank_db
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/unibank_db
+    username: your_username
+    password: your_password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 # H2 Configuration (Development)
-# spring.datasource.url=jdbc:h2:mem:unibank_db
-# spring.h2.console.enabled=true
+# spring:
+#   datasource:
+#     url: jdbc:h2:mem:unibank_db
+#   h2:
+#     console:
+#       enabled: true
 ```
 
 ### 3. Build the Project
@@ -208,7 +216,7 @@ java -jar target/unibank-api-0.0.1-SNAPSHOT.jar
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 COPY target/*.jar app.jar
-EXPOSE 9000
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
@@ -223,24 +231,33 @@ docker run -p 8080:8080 unibank-api
 
 ## 🔧 Configuration
 
-Key configuration options in `application.properties`:
+Key configuration options in `application.yml`:
 
-```properties
+```yaml
 # Server Configuration
-server.port=8080
+server:
+  port: 8080
 
 # Database
-spring.datasource.url=jdbc:mysql://localhost:3306/unibank_db
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/unibank_db
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
-# Security
-spring.security.user.name=admin
-spring.security.user.password=admin123
+  # Security
+  security:
+    user:
+      name: admin
+      password: admin123
 
 # Logging
-logging.level.root=INFO
-logging.level.com.unibank.api=DEBUG
+logging:
+  level:
+    root: INFO
+    com.unibank.api: DEBUG
 ```
 
 ---
@@ -272,9 +289,10 @@ Contributions are welcome! To contribute:
 ### Common Issues
 
 **Port already in use:**
-```bash
-# Change port in application.properties
-server.port=8081
+```yaml
+# Change port in application.yml
+server:
+  port: 8081
 ```
 
 **Database connection error:**
@@ -296,10 +314,14 @@ This project is open source and available under the MIT License.
 
 ---
 
-## 👤 Author
+## 👥 Authors
 
-**Lamin Jawla**
-- GitHub: [@laminjawla1](https://github.com/laminjawla1)
+**Development Team:**
+- **Lamin Jawla** - [@laminjawla1](https://github.com/laminjawla1)
+- **Mahamadou Jabbie**
+- **Alimatou Njie**
+- **Yankuba Suso**
+- **Abubacarr Touray**
 
 ---
 
